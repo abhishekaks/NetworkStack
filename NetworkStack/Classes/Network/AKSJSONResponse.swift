@@ -1,14 +1,13 @@
 //
-//  JCJSONResponse.swift
-//  JioCoupons
+//  AKSJSONResponse.swift
+//  Pods
 //
-//  Created by Abhishek Singh on 23/06/17.
-//  Copyright © 2017 JioMoney. All rights reserved.
+//  Created by Abhishek Singh on 10/01/18.
 //
 
 import UIKit
 
-class JCJSONResponse: JCResponse {
+open class AKSJSONResponse: AKSResponse {
     class open override func serializedResponseWith(data:Data?) -> Dictionary<String, Any>?{
         if let _data:Data = data {
             do{
@@ -16,7 +15,7 @@ class JCJSONResponse: JCResponse {
                 if serializedResponse is Dictionary<String, Any> {
                     return serializedResponse as? Dictionary<String, Any>
                 }else{
-                    return [JCGlobalConstants.NetworkUtility.defaultResponseHolder:serializedResponse]
+                    return [AKSGlobalConstants.NetworkUtility.defaultResponseHolder:serializedResponse]
                 }
             }catch let error{
                 print("error parsing " + String(describing: error))

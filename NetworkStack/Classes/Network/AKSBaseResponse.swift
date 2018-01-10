@@ -1,14 +1,13 @@
 //
-//  JCBaseResponse.swift
-//  JioCoupons
+//  AKSBaseResponse.swift
+//  Pods
 //
-//  Created by Abhishek Singh on 04/07/17.
-//  Copyright © 2017 JioMoney. All rights reserved.
+//  Created by Abhishek Singh on 10/01/18.
 //
 
 import UIKit
 
-public class JCBaseResponse:NSObject, Unmarshaling {
+open class AKSBaseResponse:NSObject, Unmarshaling {
     //MARK: Member Variables
     //public var responseBody:Any?
     public private(set) var httpStatusCode:Int?
@@ -30,7 +29,7 @@ public class JCBaseResponse:NSObject, Unmarshaling {
         message = try object.value(for: "message")
     }
     
-    required convenience public init?(request:JCRequest, response:URLResponse?, responseDict:Dictionary<String, Any>?, error: Error?) {
+    required convenience public init?(request:AKSRequest, response:URLResponse?, responseDict:Dictionary<String, Any>?, error: Error?) {
         if let _responseDict = responseDict {
             do {
                 try self.init(object: _responseDict)

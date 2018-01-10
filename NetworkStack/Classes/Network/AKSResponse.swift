@@ -1,5 +1,5 @@
 //
-//  AKSNetworkDownloader.swift
+//  AKSResponse.swift
 //  Pods
 //
 //  Created by Abhishek Singh on 10/01/18.
@@ -7,6 +7,6 @@
 
 import UIKit
 
-class AKSNetworkDownloader: NSObject {
+open class AKSResponse: AKSBaseResponse {
 
 }

@@ -1,14 +1,13 @@
 //
-//  JCJSONRequest.swift
-//  JioCoupons
+//  AKSJSONRequest.swift
+//  Pods
 //
-//  Created by Abhishek Singh on 21/06/17.
-//  Copyright © 2017 JioMoney. All rights reserved.
+//  Created by Abhishek Singh on 10/01/18.
 //
 
 import UIKit
 
-class JCJSONRequest: JCRequest {
+open class AKSJSONRequest: AKSRequest {
     open override func formBodyDataFrom(dictionary:[String:Any], requestType:HTTPRequestType, url:String) -> Data?{
         if requestType == HTTPRequestType.POST {
             return try! JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
@@ -18,6 +17,6 @@ class JCJSONRequest: JCRequest {
     }
     
     open override func contentType() -> String{
-        return JCGlobalConstants.NetworkHeaders.ContentType_JSON
+        return AKSGlobalConstants.NetworkHeaders.ContentType_JSON
     }
 }

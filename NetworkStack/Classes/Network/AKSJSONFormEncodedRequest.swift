@@ -1,17 +1,15 @@
 //
-//  JCJSONFormEncodedRequest.swift
-//  JioCoupons
+//  AKSJSONFormEncodedRequest.swift
+//  Pods
 //
-//  Created by Abhishek Singh on 16/10/17.
-//  Copyright © 2017 JioMoney. All rights reserved.
+//  Created by Abhishek Singh on 10/01/18.
 //
 
 import UIKit
 
-class JCJSONFormEncodedRequest: JCRequest {
-
+open class AKSJSONFormEncodedRequest: AKSRequest {
     open override func contentType() -> String{
-        return JCGlobalConstants.NetworkHeaders.ContentType_FormEncoded
+        return AKSGlobalConstants.NetworkHeaders.ContentType_FormEncoded
     }
     
     open override func formBodyDataFrom(dictionary:[String:Any], requestType:HTTPRequestType, url:String) -> Data?{
@@ -19,11 +17,11 @@ class JCJSONFormEncodedRequest: JCRequest {
         return bodyString.data(using: .utf8)
     }
     
-    override func setBody(_ body:Data?, request:inout URLRequest){
+    override public func setBody(_ body:Data?, request:inout URLRequest){
         super.setBody(body, request: &request)
         if var _body = body {
             let lengthVal:String = String(format: "%lu", _body.count)
-            self.addHeader(lengthVal, forKey: JCGlobalConstants.NetworkHeaders.ContentLen)
+            self.addHeader(lengthVal, forKey: AKSGlobalConstants.NetworkHeaders.ContentLen)
         }
     }
 }

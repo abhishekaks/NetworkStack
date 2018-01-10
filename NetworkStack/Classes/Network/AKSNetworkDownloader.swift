@@ -1,21 +1,20 @@
 //
-//  JCNetworkDownloader.swift
-//  JioCoupons
+//  AKSNetworkDownloader.swift
+//  Pods
 //
-//  Created by Abhishek Singh on 21/06/17.
-//  Copyright © 2017 JioMoney. All rights reserved.
+//  Created by Abhishek Singh on 10/01/18.
 //
 
 import UIKit
 
-class JCNetworkDownloader: NSObject {
+open class AKSNetworkDownloader: NSObject {
     
     var dataTask:URLSessionDataTask? = nil
     var data:Data? = nil
     var completionBlock:CompletionHandler
-    var request:JCRequest
+    var request:AKSRequest
     
-    init(request    :JCRequest,
+    init(request    :AKSRequest,
          completion : @escaping CompletionHandler) {
         self.request = request
         self.completionBlock = completion
@@ -24,17 +23,17 @@ class JCNetworkDownloader: NSObject {
         initializeDownloadWith(request, completion: completion)
     }
     
-    private func logRequest(_ request:JCRequest){
-//                print("\n***Sending API Request***\nURL:\n" + request.url + "\n\nBody:\n" + "\(request.body)" + "\n\nHeaders:\n" + String(describing: request.request?.allHTTPHeaderFields) + "\n\n*************************\n")
+    private func logRequest(_ request:AKSRequest){
+        print("\n***Sending API Request***\nURL:\n" + request.url + "\n\nBody:\n" + "\(request.body)" + "\n\nHeaders:\n" + String(describing: request.request?.allHTTPHeaderFields) + "\n\n*************************\n")
     }
     
-    fileprivate func logResponseDataWith(request:JCRequest, responseData:Data?, response:HTTPURLResponse?){
+    fileprivate func logResponseDataWith(request:AKSRequest, responseData:Data?, response:HTTPURLResponse?){
         if let _data = responseData {
-//            print("\n***Received API Response For***\nURL:\n" + request.url + "\n\nBody:\n" + "\(request.body)" + "\n\nResponse Code:\n" + String(describing: response?.statusCode) + "\n" + "\n\nHeaders:\n" + String(describing: request.request?.allHTTPHeaderFields) + "\n\nResponse:\n" + String(data: _data, encoding: .utf8)!  + "\n\n*************************\n")
+            print("\n***Received API Response For***\nURL:\n" + request.url + "\n\nBody:\n" + "\(request.body)" + "\n\nResponse Code:\n" + String(describing: response?.statusCode) + "\n" + "\n\nHeaders:\n" + String(describing: request.request?.allHTTPHeaderFields) + "\n\nResponse:\n" + String(data: _data, encoding: .utf8)!  + "\n\n*************************\n")
         }
     }
     
-    private func initializeDownloadWith(_ request:JCRequest,
+    private func initializeDownloadWith(_ request:AKSRequest,
                                         completion:@escaping CompletionHandler){
         let urlSessionConf:URLSessionConfiguration = URLSessionConfiguration.default
         
@@ -55,25 +54,25 @@ class JCNetworkDownloader: NSObject {
         }
     }
     
-    public class func parseTheResponse(_ data:Data?, urlResponse: URLResponse?, request:JCRequest, error: Error?) -> JCResponse{
-        let parsingClass: JCResponse.Type = request.parsingClass as! JCResponse.Type
+    public class func parseTheResponse(_ data:Data?, urlResponse: URLResponse?, request:AKSRequest, error: Error?) -> AKSResponse{
+        let parsingClass: AKSResponse.Type = request.parsingClass as! AKSResponse.Type
         if request.shouldParse {
-            if let parsedObject:JCResponse = parsingClass.init(request: request, response: urlResponse, responseDict: parsingClass.serializedResponseWith(data: data), error: error){
+            if let parsedObject:AKSResponse = parsingClass.init(request: request, response: urlResponse, responseDict: parsingClass.serializedResponseWith(data: data), error: error){
                 return parsedObject
             }else{
-                let parsedObject:JCResponse = parsingClass.init()
+                let parsedObject:AKSResponse = parsingClass.init()
                 parsedObject.addResponseDetails(response: urlResponse, error: error)
                 return parsedObject
             }
         }else{
-            let parsedObject:JCResponse = parsingClass.init()
+            let parsedObject:AKSResponse = parsingClass.init()
             //parsedObject.responseBody = parsingClass.serializedResponseWith(data: data)
             return parsedObject
         }
     }
 }
 
-extension JCNetworkDownloader: URLSessionDataDelegate{
+extension AKSNetworkDownloader: URLSessionDataDelegate{
     
     public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Swift.Void){
         self.data = Data()
@@ -90,7 +89,7 @@ extension JCNetworkDownloader: URLSessionDataDelegate{
         //        print(task.currentRequest?.url ?? "")
         //        print("\n\n\n")
         
-        let parsedResponse:JCResponse = JCNetworkDownloader.parseTheResponse(self.data, urlResponse: task.response, request: self.request, error: error)
+        let parsedResponse:AKSResponse = AKSNetworkDownloader.parseTheResponse(self.data, urlResponse: task.response, request: self.request, error: error)
         if let _error:Error = error {
             self.completionBlock(parsedResponse, self.request, self.data, _error)
         }else{

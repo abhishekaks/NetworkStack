@@ -1,39 +1,43 @@
 //
-//  JCNetworkManager.swift
-//  JioCoupons
+//  AKSNetworkManager.swift
+//  Pods
 //
-//  Created by Abhishek Singh on 21/06/17.
-//  Copyright © 2017 JioMoney. All rights reserved.
+//  Created by Abhishek Singh on 10/01/18.
 //
 
 import UIKit
 
-open class JCNetworkManager: NSObject {
+open class AKSNetworkManager: NSObject {
     
-    private weak var delegate:JCNetworkManagerDelegate?
-    private var requestDict:[String:JCNetworkDownloader] = Dictionary()
-    private var networkQueue:DispatchQueue = DispatchQueue(label: "com.jio.jiomoney.coupons.networkQueue")
+    private weak var delegate:AKSNetworkManagerDelegate?
+    private var requestDict:[String:AKSNetworkDownloader] = Dictionary()
+    private var networkQueue:DispatchQueue = DispatchQueue(label: "com.aks.networkQueue")
     
-    init(delegate:JCNetworkManagerDelegate) {
+    public init(delegate:AKSNetworkManagerDelegate) {
         self.delegate = delegate
+        super.init()
+        start()
+    }
+    
+    override public init() {
+        super.init()
+        start()
+    }
+    
+    private func start() {
         self.requestDict = Dictionary()
-        self.networkQueue = DispatchQueue(label: "com.jio.jiomoney.coupons.networkQueue")
-        super.init()
+        self.networkQueue = DispatchQueue(label: "com.aks.networkQueue")
     }
     
-    override init() {
-        super.init()
-    }
-    
-    func downloadWithRequest(
-        request:JCRequest,
+    public func downloadWithRequest(
+        request:AKSRequest,
         success:@escaping CompletionBlock,
         failure:@escaping CompletionBlock,
         validationBlock: ValidationBlock?){
         
-        if let mockResponsePath:(filename:String, ext:String) = request.mockResponseFilepath, mockResponsePath.filename.characters.count > 0, mockResponsePath.ext.characters.count > 0, let filePath:String = Bundle(for: self.classForCoder).path(forResource: mockResponsePath.filename, ofType: mockResponsePath.ext) {
+        if let mockResponsePath:(filename:String, ext:String) = request.mockResponseFilepath, mockResponsePath.filename.count > 0, mockResponsePath.ext.count > 0, let filePath:String = Bundle(for: self.classForCoder).path(forResource: mockResponsePath.filename, ofType: mockResponsePath.ext) {
             let jsonData:Data = try! Data(contentsOf: URL(fileURLWithPath: filePath))
-            let response:JCResponse = JCNetworkDownloader.parseTheResponse(jsonData, urlResponse: nil, request: request, error: nil)
+            let response:AKSResponse = AKSNetworkDownloader.parseTheResponse(jsonData, urlResponse: nil, request: request, error: nil)
             DispatchQueue.main.async {
                 success(response, request)
             }
@@ -71,7 +75,7 @@ open class JCNetworkManager: NSObject {
         }
     }
     
-    private func informer(_ success:Bool, response:JCResponse, request:JCRequest, data:Data? , error:Error?, successBlock:@escaping CompletionBlock, failureBlock:@escaping CompletionBlock, validationBlock: ValidationBlock?){
+    private func informer(_ success:Bool, response:AKSResponse, request:AKSRequest, data:Data? , error:Error?, successBlock:@escaping CompletionBlock, failureBlock:@escaping CompletionBlock, validationBlock: ValidationBlock?){
         if success == true{
             _ = self.didDownloadData(data, request: request, response: response)
             DispatchQueue.main.async {
@@ -91,9 +95,9 @@ open class JCNetworkManager: NSObject {
         }
     }
     
-    private func sendRequest(request:JCRequest, completionBlock:@escaping CompletionHandler){
+    private func sendRequest(request:AKSRequest, completionBlock:@escaping CompletionHandler){
         networkQueue.async {
-            let downloader:JCNetworkDownloader = JCNetworkDownloader.init(request: request) { [weak self] (response, request, data, error) in
+            let downloader:AKSNetworkDownloader = AKSNetworkDownloader.init(request: request) { [weak self] (response, request, data, error) in
                 if let __weakSelf = self {
                     __weakSelf.requestDict.removeValue(forKey: request.uniqueIdentifier)
                     completionBlock(response, request, data, error)
@@ -106,20 +110,20 @@ open class JCNetworkManager: NSObject {
         }
     }
     
-    public func didDownloadData(_ data:Data?, request:JCRequest, response:JCResponse) -> Data?{
+    public func didDownloadData(_ data:Data?, request:AKSRequest, response:AKSResponse) -> Data?{
         return data
     }
     
-    public func successfulResponse(_ response:JCResponse) -> Bool{
+    public func successfulResponse(_ response:AKSResponse) -> Bool{
         if let _httpCode = response.httpStatusCode, _httpCode == 200 {
             return true
         }
         return false
     }
     
-    public func cancelRequest(request:JCRequest){
+    public func cancelRequest(request:AKSRequest){
         networkQueue.async {
-            if let downloader:JCNetworkDownloader = self.requestDict[request.uniqueIdentifier]{
+            if let downloader:AKSNetworkDownloader = self.requestDict[request.uniqueIdentifier]{
                 downloader.stopDownloading()
                 self.requestDict.removeValue(forKey: request.uniqueIdentifier)
             }
@@ -129,7 +133,7 @@ open class JCNetworkManager: NSObject {
     public func cancelAllRequests(){
         networkQueue.async {
             for (key, value) in self.requestDict{
-                let downloader:JCNetworkDownloader = value
+                let downloader:AKSNetworkDownloader = value
                 downloader.stopDownloading()
                 self.requestDict.removeValue(forKey: key)
             }
@@ -137,8 +141,8 @@ open class JCNetworkManager: NSObject {
         }
     }
     
-    func validateIfSuccessfulResponse(response:JCResponse,
-                                      request:JCRequest,
+    public func validateIfSuccessfulResponse(response:AKSResponse,
+                                      request:AKSRequest,
                                       success:@escaping CompletionBlock,
                                       failure:@escaping CompletionBlock,
                                       validationBlock: ValidationBlock?,

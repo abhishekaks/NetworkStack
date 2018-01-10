@@ -1,9 +1,8 @@
 //
-//  JCRequest.swift
-//  JioCoupons
+//  AKSRequest.swift
+//  Pods
 //
-//  Created by Abhishek Singh on 21/06/17.
-//  Copyright © 2017 JioMoney. All rights reserved.
+//  Created by Abhishek Singh on 10/01/18.
 //
 
 import UIKit
@@ -16,7 +15,7 @@ public enum HTTPRequestType:String {
     case None   = ""
 }
 
-public class JCRequest: NSObject {
+open class AKSRequest: NSObject {
     
     //MARK: Member Variables
     public private(set) var url:String = ""
@@ -26,13 +25,14 @@ public class JCRequest: NSObject {
     public private(set) var body:[String:Any] = Dictionary()
     public fileprivate(set) var request:URLRequest?
     
-    public var parsingClass:AnyClass = JCResponse.self
+    public var parsingClass:AnyClass = AKSResponse.self
     public var shouldParse:Bool = true
     public var tag:Int = 0
     public var shouldShowErrorMessage:Bool = true
-    public var cacheType:JCCacheType = .none
+    public var cacheType:AKSCacheType = .none
     public var forceCacheRefresh:Bool = false
     public var mockResponseFilepath:(filename:String, ext:String)?
+    public var timeout:TimeInterval = 60
     
     /*
      @param: letDelegateHandleFailureBlock
@@ -64,13 +64,22 @@ public class JCRequest: NSObject {
             request.httpBody = _body
         }
     }
+    
+    open func contentType() -> String{
+        return AKSGlobalConstants.NetworkHeaders.ContentType_JSON
+    }
+    
+    open func defaultHeaders() -> [String:String]{
+        let _defaultHeaders:[String:String] = Dictionary()
+        return _defaultHeaders
+    }
 }
 
-extension JCRequest{
+extension AKSRequest{
     
     fileprivate func formUniqueIdentifierFrom(relativeUrl:String, body:[String:Any]) -> String{
         var uniqueIdentifier:String = relativeUrl + urlQuery(body)
-        uniqueIdentifier = stringByRemovingCharacterPattern(JCGlobalConstants.NetworkUtility.ignorePattern, replacementString: "", inputString: uniqueIdentifier)
+        uniqueIdentifier = stringByRemovingCharacterPattern(AKSGlobalConstants.NetworkUtility.ignorePattern, replacementString: "", inputString: uniqueIdentifier)
         return uniqueIdentifier
     }
     
@@ -91,22 +100,22 @@ extension JCRequest{
     
     fileprivate func stringByRemovingCharacterPattern(_ pattern:String, replacementString:String, inputString:String) -> String{
         let regEx:NSRegularExpression   = try! NSRegularExpression.init(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
-        let resultString:String         = regEx.stringByReplacingMatches(in: inputString, options: NSRegularExpression.MatchingOptions.reportProgress, range: NSMakeRange(0, inputString.characters.count), withTemplate: replacementString)
+        let resultString:String         = regEx.stringByReplacingMatches(in: inputString, options: NSRegularExpression.MatchingOptions.reportProgress, range: NSMakeRange(0, inputString.count), withTemplate: replacementString)
         return resultString
     }
 }
 
-extension JCRequest{
+extension AKSRequest{
     fileprivate func getAbsolutePath(relativePath:String, requestType:HTTPRequestType, body:[String:Any]) -> String{
         if requestType == HTTPRequestType.GET {
-            return /*JCURL.baseURL() + */relativePath + urlQuery(body)
+            return relativePath + urlQuery(body)
         }else{
-            return /*JCURL.baseURL() + */relativePath
+            return relativePath
         }
     }
     
     fileprivate func formRequestWith(headers:[String:String], bodyData:Data?, url:String, requestType:HTTPRequestType) -> URLRequest{
-        var request:URLRequest = URLRequest.init(url: URL.init(string: url)!, cachePolicy: URLRequest.CachePolicy.reloadIgnoringCacheData, timeoutInterval: JCGlobalConstants.NetworkUtility.timeout)
+        var request:URLRequest = URLRequest.init(url: URL.init(string: url)!, cachePolicy: URLRequest.CachePolicy.reloadIgnoringCacheData, timeoutInterval: timeout)
         request.httpMethod = requestType.rawValue
         
         if let _bodyData:Data = bodyData, requestType == HTTPRequestType.POST  {
@@ -114,49 +123,18 @@ extension JCRequest{
         }
         
         request.allHTTPHeaderFields = addDefaultHeadersTo(headers)
-        request.timeoutInterval = JCGlobalConstants.NetworkUtility.timeout
+        request.timeoutInterval = AKSGlobalConstants.NetworkUtility.timeout
         return request
     }
     
-    fileprivate func addDefaultHeadersTo(_ headers:[String:String]) -> [String:String]{
+    private func addDefaultHeadersTo(_ headers:[String:String]) -> [String:String]{
         let withDefaultHeaders:[String:String] = defaultHeaders().addValuesFromDictionary(headers)
         return withDefaultHeaders
-    }
-    
-    fileprivate func defaultHeaders() -> [String:String]{
-        var _defaultHeaders:[String:String] = Dictionary()
-        _defaultHeaders[JCGlobalConstants.NetworkHeaders.API_key] = JCConfiguration.sharedInstance.apiKey
-        
-        if JCConfiguration.sharedInstance.accessToken.characters.count > 0 {
-            _defaultHeaders[JCGlobalConstants.NetworkHeaders.Authorization] = JCConfiguration.sharedInstance.accessToken
-        }
-        
-        _defaultHeaders[JCGlobalConstants.NetworkHeaders.ContentType] = self.contentType()
-        _defaultHeaders[JCGlobalConstants.NetworkHeaders.ClientType] = JCGlobalConstants.NetworkHeaders.ClientTypeMyJio
-        return _defaultHeaders
-    }
-    
-    open func contentType() -> String{
-        return JCGlobalConstants.NetworkHeaders.ContentType_JSON
     }
     
     public func addHeader(_ value:String, forKey:String) {
         if let _ = self.request {
             self.request!.setValue(value, forHTTPHeaderField: forKey)
-        }
-    }
-    
-    private func nonAuthorizedHeaderWith(_ username:String, password:String) -> String {
-        let authString:String = String(format: "%@:%@", username, password)
-        let authData:Data = authString.data(using: .utf8)!
-        let base64Auth:String = authData.base64EncodedString()
-        return base64Auth
-    }
-    
-    public func addNonAuthorizedStateHeader(_ username:String = JCConfiguration.sharedInstance.apiKey, password:String = JCConfiguration.sharedInstance.clientSecret){
-        if username.characters.count > 0 && password.characters.count > 0 {
-            let nonAuthIdentityHeader:String = String(format: "Basic %@", self.nonAuthorizedHeaderWith(username, password: password))
-            self.addHeader(nonAuthIdentityHeader, forKey: JCGlobalConstants.NetworkHeaders.Authorization)
         }
     }
 }
@@ -170,4 +148,3 @@ extension Dictionary{
         return parentDict
     }
 }
-
