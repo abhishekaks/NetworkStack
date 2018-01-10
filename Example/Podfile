@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'NetworkStack_Example' do
+  pod 'NetworkStack', :path => '../'
+  
+  target 'NetworkStack_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

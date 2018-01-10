@@ -1,0 +1,19 @@
+PODS:
+  - NetworkStack (0.1.0):
+    - PINCache
+  - PINCache (2.3)
+
+DEPENDENCIES:
+  - NetworkStack (from `../`)
+
+EXTERNAL SOURCES:
+  NetworkStack:
+    :path: ../
+
+SPEC CHECKSUMS:
+  NetworkStack: 336750b6065fee413a1f75ec268fa622f1fbf177
+  PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
+
+PODFILE CHECKSUM: dd63beddd52fbb7382602d9c0bf155e46141d360
+
+COCOAPODS: 1.3.1

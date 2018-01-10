@@ -1,0 +1,27 @@
+{
+  "name": "NetworkStack",
+  "version": "0.1.0",
+  "summary": "A short description of NetworkStack.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/abhishekaks/NetworkStack",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "abhishekaks": "abhishek21.singh@ril.com"
+  },
+  "source": {
+    "git": "https://github.com/abhishekaks/NetworkStack.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "NetworkStack/Classes/**/*",
+  "dependencies": {
+    "PINCache": [
+
+    ]
+  }
+}
