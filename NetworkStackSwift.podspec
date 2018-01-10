@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'NetworkStackSwift'
-  s.version          = '0.2.0'
+  s.version          = '0.3.0'
   s.summary          = 'Network Layer along with Parsing for Swift Projects.'
 
   s.description      = <<-DESC

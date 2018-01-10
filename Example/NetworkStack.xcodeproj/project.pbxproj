@@ -38,7 +38,7 @@
 		16286DB3A95BC656A494D25D /* Pods-NetworkStack_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkStack_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkStack_Example/Pods-NetworkStack_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		210CBA1FBAC20FA50CA0BAB8 /* Pods-NetworkStack_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkStack_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkStack_Tests/Pods-NetworkStack_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3058CBA99656B7E3E9F37521 /* Pods-NetworkStack_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkStack_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkStack_Tests/Pods-NetworkStack_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		38CA5C5AE913F3AF43727905 /* NetworkStack.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = NetworkStack.podspec; path = ../NetworkStack.podspec; sourceTree = "<group>"; };
+		38CA5C5AE913F3AF43727905 /* NetworkStackSwift.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = NetworkStackSwift.podspec; path = ../NetworkStackSwift.podspec; sourceTree = "<group>"; };
 		5C8300C39512864787927784 /* Pods-NetworkStack_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkStack_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-NetworkStack_Example/Pods-NetworkStack_Example.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* NetworkStack_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkStack_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				38CA5C5AE913F3AF43727905 /* NetworkStack.podspec */,
+				38CA5C5AE913F3AF43727905 /* NetworkStackSwift.podspec */,
 				CFB1A676BDBE72D2E232D6FF /* README.md */,
 				65E4906F188957136F6334D3 /* LICENSE */,
 			);
