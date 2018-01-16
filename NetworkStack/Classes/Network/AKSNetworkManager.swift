@@ -82,7 +82,7 @@ open class AKSNetworkManager: NSObject {
                 successBlock(response, request)
             }
         }else{
-            if let _ = self.delegate, request.letDelegateHandleFailureBlock == false{
+            if request.letDelegateHandleFailureBlock == false{
                 DispatchQueue.main.async {
                     failureBlock(response, request)
                 }

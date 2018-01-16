@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Marshal
 
 open class AKSBaseResponse:NSObject, Unmarshaling {
     //MARK: Member Variables
