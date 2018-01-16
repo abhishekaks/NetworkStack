@@ -1,5 +1,7 @@
 PODS:
-  - NetworkStack (0.1.0):
+  - Marshal (1.2.4)
+  - NetworkStack (0.3.0):
+    - Marshal
     - PINCache
   - PINCache (2.3)
 
@@ -11,7 +13,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  NetworkStack: 336750b6065fee413a1f75ec268fa622f1fbf177
+  Marshal: 8e04e6624e506921db7143b0bfd83caee03f32d6
+  NetworkStack: 5628856785eca785d9ca3e76d2236e38e46ada5d
   PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
 
 PODFILE CHECKSUM: dd63beddd52fbb7382602d9c0bf155e46141d360

@@ -102,10 +102,12 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Marshal/Marshal.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/NetworkStack/NetworkStack.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Marshal/Marshal.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/NetworkStack/NetworkStack.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework"
 fi

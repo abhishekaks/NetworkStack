@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = 'NetworkStackSwift'
+  s.name             = 'NetworkStack'
   s.version          = '0.3.0'
   s.summary          = 'Network Layer along with Parsing for Swift Projects.'
 
@@ -25,4 +25,5 @@ NetworkStack allows easy and fast integration of a network layer for a swift and
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'PINCache'
+s.dependency 'Marshal'
 end

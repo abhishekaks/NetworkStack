@@ -8,6 +8,7 @@
 
 import UIKit
 import NetworkStack
+import Marshal
 
 class TestModel: AKSJSONResponse {
     public var mpinSet:Bool?

@@ -9,12 +9,6 @@
 import UIKit
 import NetworkStack
 
-let API_key:String = "X-API-KEY"
-let ClientType: String = "X-CLIENT-TYPE"
-let Authorization:String = "Authorization"
-let ClientTypeMyJio: String = "myjio"
-let ContentType:String = "Content-Type"
-
 struct JCRequestConstants {
     static let API_key:String = "X-API-KEY"
     static let ClientType: String = "X-CLIENT-TYPE"
